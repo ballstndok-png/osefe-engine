@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="osefe-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f8cff"/>
+      <stop offset="0.55" stop-color="#7b5bff"/>
+      <stop offset="1" stop-color="#b14bff"/>
+    </linearGradient>
+    <linearGradient id="osefe-grad-soft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f8cff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#b14bff" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded-square backdrop -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="#17181d"/>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#osefe-grad-soft)"/>
+  <!-- Osefe "O": bold ring with open notch -->
+  <path d="M 64 26
+           a 38 38 0 1 0 0.01 0 Z
+           M 64 44
+           a 20 20 0 1 1 -0.01 0 Z"
+        fill-rule="evenodd"
+        fill="url(#osefe-grad)"/>
+  <!-- Orbit node: spark on the ring (top-right) -->
+  <circle cx="88" cy="40" r="9" fill="#ffffff"/>
+  <circle cx="88" cy="40" r="4.5" fill="#7b5bff"/>
+  <!-- Motion arc hint -->
+  <path d="M 96 88 a 40 40 0 0 1 -32 16" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="7" stroke-linecap="round"/>
+</svg>
