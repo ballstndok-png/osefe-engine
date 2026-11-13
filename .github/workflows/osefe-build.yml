@@ -1,0 +1,119 @@
+name: Build Osefe Engine
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-windows:
+    name: Windows Editor (x86_64)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install SCons
+        run: python -m pip install scons
+
+      - name: Build (MSVC)
+        run: scons platform=windows target=editor arch=x86_64 werror=no -j15
+        shell: cmd
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: osefe-editor-windows
+          path: bin/*.exe
+          retention-days: 14
+
+  build-linux:
+    name: Linux Editor (x86_64)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install SCons
+        run: python -m pip install scons
+
+      - name: Build
+        run: scons platform=linuxbsd target=editor arch=x86_64 werror=no -j15
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: osefe-editor-linux
+          path: bin/*.x86_64
+          retention-days: 14
+
+  build-macos:
+    name: macOS Editor (Universal)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install SCons
+        run: python -m pip install scons
+
+      - name: Build
+        run: scons platform=macos target=editor arch=universal werror=no -j10
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: osefe-editor-macos
+          path: |
+            bin/*.zip
+            bin/*.app
+            bin/*.dmg
+          retention-days: 14
+
+  build-android:
+    name: Android Editor (arm64)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install SCons
+        run: python -m pip install scons
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build
+        run: scons platform=android target=editor arch=arm64 werror=no -j15
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: osefe-editor-android
+          path: bin/*.apk
+          retention-days: 14
