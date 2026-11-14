@@ -16469,3 +16469,86 @@ msgid ""
 msgstr ""
 "تم الوصول للحجم الكامل لـ %s بالنسبة لهذا الـ shader على هذا الجهاز (%d/%d). "
 "قد لا يعمل الـ shader بالشكل المناسب."
+
+# Osefe: project types and Instant Games templates.
+msgid "Project Type:"
+msgstr "نوع المشروع:"
+
+msgid "Hybrid (2D + 3D)"
+msgstr "هجين (ثلاثي + ثنائي الأبعاد)"
+
+msgid "Platformer 2D (ready game)"
+msgstr "منصات ثنائية الأبعاد (لعبة جاهزة)"
+
+msgid "Top-Down 2D (ready game)"
+msgstr "من أعلى ثنائي الأبعاد (لعبة جاهزة)"
+
+msgid "FPS 3D (ready game)"
+msgstr "تصويب ثلاثي الأبعاد (لعبة جاهزة)"
+
+msgid "Blank"
+msgstr "فارغ"
+
+msgid "The project type creates a ready-to-run starter scene for you."
+msgstr "نوع المشروع ينشئ لك مشهد بداية جاهزاً للتشغيل."
+
+msgid "Starter scene with a 2D root node."
+msgstr "مشهد بداية مع عقدة جذر ثنائية الأبعاد."
+
+msgid "Ready-to-run 2D game out of the box."
+msgstr "لعبة ثنائية الأبعاد جاهزة للتشغيل فوراً."
+
+msgid "Starter scene with camera + lighting."
+msgstr "مشهد بداية مع كاميرا وإضاءة."
+
+msgid "Ready-to-run 3D game out of the box."
+msgstr "لعبة ثلاثية الأبعاد جاهزة للتشغيل فوراً."
+
+msgid "Osefe signature mode: 3D world + 2D HUD in one scene."
+msgstr "وضع Osefe المميز: عالم ثلاثي الأبعاد + واجهة ثنائية الأبعاد في مشهد واحد."
+
+msgid "Camera, lighting, sky and a 2D UI layer."
+msgstr "كاميرا وإضاءة وسماء وطبقة واجهة ثنائية الأبعاد."
+
+msgid "Perfect for 2D-over-3D games (runner, AR-like, hybrid RPG)."
+msgstr "مثالي لألعاب الواجهة فوق العالم ثلاثي الأبعاد (رانر، AR، RPG هجين)."
+
+msgid "Empty project, exactly like the classic behavior."
+msgstr "مشروع فارغ، تماماً كسلوك المحركات الكلاسيكية."
+
+msgid "Complete playable platformer: running + jumping player, platforms."
+msgstr "لعبة منصات كاملة قابلة للعب: شخصية تجري وتقفز ومنصات."
+
+msgid "Arrow keys to move, Space to jump. Press F5 and play!"
+msgstr "الأسهم للحركة والمسافة للقفز. اضغط F5 والعب!"
+
+msgid "Complete playable top-down game: 8-direction player, coins to collect."
+msgstr "لعبة من أعلى كاملة قابلة للعب: حركة بثمانية اتجاهات وعملات للجمع."
+
+msgid "Arrow keys to move. Press F5 and play!"
+msgstr "الأسهم للحركة. اضغط F5 والعب!"
+
+msgid "Complete playable FPS: mouse look, walking, jumping, obstacles."
+msgstr "لعبة تصويب كاملة قابلة للعب: نظر بالفأرة ومشي وقفز وعوائق."
+
+msgid "Click to capture mouse. Arrows/WASD to move, Space to jump."
+msgstr "انقر لالتقاط الفأرة. الأسهم/WASD للحركة والمسافة للقفز."
+
+msgid "Osefe Instant Games"
+msgstr "ألعاب Osefe الفورية"
+
+msgid "Your project will start with a ready-to-run starter scene (scripts, physics, camera and HUD included). You can delete or modify it anytime.\n\nCreate the starter scene, or make an empty project?"
+msgstr "سيبدأ مشروعك بمشهد لعبة جاهز للتشغيل (سكربتات وفيزياء وكاميرا وواجهة). يمكنك حذفه أو تعديله في أي وقت.\n\nإنشاء مشهد البداية أم مشروع فارغ؟"
+
+msgid "Yes, create the starter"
+msgstr "نعم، أنشئ مشهد البداية"
+
+msgid "No, empty project"
+msgstr "لا، مشروع فارغ"
+
+msgid "Couldn't create starter scene in project path."
+msgstr "تعذر إنشاء مشهد البداية في مسار المشروع."
+
+msgid "Couldn't create starter script in project path."
+msgstr "تعذر إنشاء سكربت البداية في مسار المشروع."
+

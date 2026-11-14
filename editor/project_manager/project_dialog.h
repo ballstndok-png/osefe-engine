@@ -92,6 +92,9 @@ private:
 	VBoxContainer *project_type_container = nullptr;
 	Label *project_type_info = nullptr;
 	Ref<ButtonGroup> project_type_button_group;
+	ConfirmationDialog *starter_confirmation = nullptr;
+	bool starter_confirmed = false;
+	bool starter_declined = false;
 
 	Label *msg = nullptr;
 	LineEdit *project_name = nullptr;
@@ -147,6 +150,8 @@ private:
 
 	void _reset_name();
 	void _project_type_selected();
+	void _starter_confirmation_confirmed();
+	void _starter_confirmation_declined();
 	void _renderer_selected();
 	void _nonempty_confirmation_ok_pressed();
 

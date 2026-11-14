@@ -490,8 +490,22 @@ void ProjectDialog::_reset_name() {
 	project_name->set_text(TTR("New Game Project"));
 }
 
+void ProjectDialog::_starter_confirmation_confirmed() {
+	starter_confirmed = true;
+	ok_pressed();
+}
+
+void ProjectDialog::_starter_confirmation_declined() {
+	starter_declined = true;
+	ok_pressed();
+}
+
 void ProjectDialog::_project_type_selected() {
 	ERR_FAIL_NULL(project_type_button_group->get_pressed_button());
+
+	// Reset any previous decision when the user picks a different type.
+	starter_confirmed = false;
+	starter_declined = false;
 
 	String project_type = project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
 
@@ -596,6 +610,27 @@ void ProjectDialog::ok_pressed() {
 
 	String path = project_path->get_text();
 
+	// Osefe: ask before creating a starter scene — templates are optional, never forced.
+	if (mode == MODE_NEW && !starter_confirmed && !starter_declined &&
+			project_type_button_group.is_valid() && project_type_button_group->get_pressed_button()) {
+		String selected_type = project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
+		if (selected_type != "blank") {
+			if (starter_confirmation == nullptr) {
+				starter_confirmation = memnew(ConfirmationDialog);
+				starter_confirmation->set_title(TTRC("Osefe Instant Games"));
+				starter_confirmation->set_ok_button_text(TTRC("Yes, create the starter"));
+				starter_confirmation->set_cancel_button_text(TTRC("No, empty project"));
+				starter_confirmation->connect("confirmed", callable_mp(this, &ProjectDialog::_starter_confirmation_confirmed));
+				starter_confirmation->connect("canceled", callable_mp(this, &ProjectDialog::_starter_confirmation_declined));
+				add_child(starter_confirmation);
+			}
+			starter_confirmation->set_text(
+					TTRC("Your project will start with a ready-to-run starter scene (scripts, physics, camera and HUD included). You can delete or modify it anytime.\n\nCreate the starter scene, or make an empty project?"));
+			starter_confirmation->popup_centered();
+			return;
+		}
+	}
+
 	if (mode == MODE_NEW) {
 		if (create_dir->is_pressed()) {
 			Ref<DirAccess> d = DirAccess::create(DirAccess::ACCESS_FILESYSTEM);
@@ -640,7 +675,7 @@ void ProjectDialog::ok_pressed() {
 		String starter_script_path;
 		String starter_script_text;
 		if (project_type_button_group.is_valid() && project_type_button_group->get_pressed_button()) {
-			String project_type = project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
+			String project_type = starter_declined ? String("blank") : (String)project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
 
 			if (project_type == "2d") {
 				starter_scene_path = "main_2d.tscn";
