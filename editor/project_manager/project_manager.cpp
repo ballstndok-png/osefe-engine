@@ -1765,6 +1765,11 @@ ProjectManager::ProjectManager() {
 		// Fade the version label to be less prominent, but still readable.
 		version_btn->set_self_modulate(Color(1, 1, 1, 0.6));
 		footer_bar->add_child(version_btn);
+
+		// Osefe Engine: stand with Palestine.
+		Label *palestine_label = memnew(Label(U"🇵🇸 Free Palestine"));
+		palestine_label->set_self_modulate(Color(1, 1, 1, 0.6));
+		footer_bar->add_child(palestine_label);
 	}
 
 	// Dialogs.

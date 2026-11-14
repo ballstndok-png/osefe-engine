@@ -40,6 +40,10 @@ Osefe Engine is built on the open-source **Godot Engine 4.7.2** core
 Godot Engine contributors, released under the MIT license. All upstream
 copyright and license notices are preserved throughout the source tree.
 
+## 🇵🇸 Free Palestine
+
+Osefe Engine stands with Palestine and its people.
+
 ## License
 
 MIT — see [LICENSE.txt](LICENSE.txt).

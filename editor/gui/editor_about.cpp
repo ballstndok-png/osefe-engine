@@ -30,8 +30,7 @@
 
 #include "editor_about.h"
 
-#include "core/authors.gen.h"
-#include "core/donors.gen.h"
+#include "core/version.h"
 #include "core/license.gen.h"
 #include "core/object/callable_mp.h"
 #include "core/os/os.h"
@@ -58,9 +57,8 @@ void EditorAbout::_notification(int p_what) {
 		case NOTIFICATION_TRANSLATION_CHANGED: {
 			_about_text_label->set_text(
 					String(U"© 2014-present ") + TTR("Godot Engine contributors") + ".\n" +
-					String(U"© 2007-2014 Juan Linietsky, Ariel Manzur.\n"));
-
-			_project_manager_label->set_text(TTR("Project Manager", "Job Title"));
+					String(U"© 2007-2014 Juan Linietsky, Ariel Manzur.\n") +
+					String(U"🇵🇸 Free Palestine\n"));
 
 			for (ItemList *il : name_lists) {
 				for (int i = 0; i < il->get_item_count(); i++) {
@@ -250,43 +248,9 @@ EditorAbout::EditorAbout() {
 	tc->set_theme_type_variation("TabContainerOdd");
 	vbc->add_child(tc);
 
-	{
-		ScrollContainer *sc = memnew(ScrollContainer);
-		sc->set_name(TTRC("Authors"));
-		sc->set_v_size_flags(Control::SIZE_EXPAND);
-		tc->add_child(sc);
-
-		VBoxContainer *vb = memnew(VBoxContainer);
-		vb->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-		sc->add_child(vb);
-
-		_create_section(vb, TTRC("Project Founders"), AUTHORS_FOUNDERS, FLAG_SINGLE_COLUMN);
-		_create_section(vb, TTRC("Lead Developer"), AUTHORS_LEAD_DEVELOPERS);
-		// The section title will be updated in NOTIFICATION_TRANSLATION_CHANGED.
-		_project_manager_label = _create_section(vb, "", AUTHORS_PROJECT_MANAGERS, FLAG_EASTER_EGG);
-		_project_manager_label->set_auto_translate_mode(AUTO_TRANSLATE_MODE_DISABLED);
-		_create_section(vb, TTRC("Developers"), AUTHORS_DEVELOPERS);
-	}
-
-	{
-		ScrollContainer *sc = memnew(ScrollContainer);
-		sc->set_name(TTRC("Donors"));
-		sc->set_v_size_flags(Control::SIZE_EXPAND);
-		tc->add_child(sc);
-
-		VBoxContainer *vb = memnew(VBoxContainer);
-		vb->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-		sc->add_child(vb);
-
-		_create_section(vb, TTRC("Patrons"), DONORS_PATRONS, FLAG_ALLOW_WEBSITE | FLAG_SINGLE_COLUMN);
-		_create_section(vb, TTRC("Platinum Sponsors"), DONORS_SPONSORS_PLATINUM, FLAG_ALLOW_WEBSITE);
-		_create_section(vb, TTRC("Gold Sponsors"), DONORS_SPONSORS_GOLD, FLAG_ALLOW_WEBSITE);
-		_create_section(vb, TTRC("Silver Sponsors"), DONORS_SPONSORS_SILVER, FLAG_ALLOW_WEBSITE);
-		_create_section(vb, TTRC("Diamond Members"), DONORS_MEMBERS_DIAMOND, FLAG_ALLOW_WEBSITE);
-		_create_section(vb, TTRC("Titanium Members"), DONORS_MEMBERS_TITANIUM, FLAG_ALLOW_WEBSITE);
-		_create_section(vb, TTRC("Platinum Members"), DONORS_MEMBERS_PLATINUM, FLAG_ALLOW_WEBSITE);
-		_create_section(vb, TTRC("Gold Members"), DONORS_MEMBERS_GOLD, FLAG_ALLOW_WEBSITE);
-	}
+	// The upstream contributors and donors lists are intentionally omitted in Osefe Engine.
+	// Legal attribution is preserved via the License and Third-party Licenses tabs,
+	// the per-file copyright headers, and AUTHORS.md / COPYRIGHT.txt in the repository.
 
 	// License.
 
