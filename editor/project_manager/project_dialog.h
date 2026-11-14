@@ -89,6 +89,10 @@ private:
 	bool rendering_device_checked = false;
 	Label *rd_not_supported = nullptr;
 
+	VBoxContainer *project_type_container = nullptr;
+	Label *project_type_info = nullptr;
+	Ref<ButtonGroup> project_type_button_group;
+
 	Label *msg = nullptr;
 	LineEdit *project_name = nullptr;
 	LineEdit *project_path = nullptr;
@@ -142,6 +146,7 @@ private:
 	void _install_path_selected(const String &p_path);
 
 	void _reset_name();
+	void _project_type_selected();
 	void _renderer_selected();
 	void _nonempty_confirmation_ok_pressed();
 

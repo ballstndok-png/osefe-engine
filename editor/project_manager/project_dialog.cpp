@@ -490,6 +490,32 @@ void ProjectDialog::_reset_name() {
 	project_name->set_text(TTR("New Game Project"));
 }
 
+void ProjectDialog::_project_type_selected() {
+	ERR_FAIL_NULL(project_type_button_group->get_pressed_button());
+
+	String project_type = project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
+
+	if (project_type == "2d") {
+		project_type_info->set_text(
+				String::utf8("•  ") + TTR("Starter scene with a 2D root node.") +
+				String::utf8("\n•  ") + TTR("Ready-to-run 2D game out of the box."));
+	} else if (project_type == "3d") {
+		project_type_info->set_text(
+				String::utf8("•  ") + TTR("Starter scene with camera + lighting.") +
+				String::utf8("\n•  ") + TTR("Ready-to-run 3D game out of the box."));
+	} else if (project_type == "hybrid") {
+		project_type_info->set_text(
+				String::utf8("•  ") + TTR("Osefe signature mode: 3D world + 2D HUD in one scene.") +
+				String::utf8("\n•  ") + TTR("Camera, lighting, sky and a 2D UI layer.") +
+				String::utf8("\n•  ") + TTR("Perfect for 2D-over-3D games (runner, AR-like, hybrid RPG)."));
+	} else { // blank
+		project_type_info->set_text(
+				String::utf8("•  ") + TTR("Empty project, exactly like the classic behavior."));
+	}
+
+	_update_ok_button();
+}
+
 void ProjectDialog::_renderer_selected() {
 	ERR_FAIL_NULL(renderer_button_group->get_pressed_button());
 
@@ -595,6 +621,134 @@ void ProjectDialog::ok_pressed() {
 		initial_settings["application/config/features"] = project_features;
 		initial_settings["application/config/name"] = project_name->get_text().strip_edges();
 		initial_settings["application/config/icon"] = "res://icon.svg";
+
+		// Osefe: compute the starter scene for the selected project type before saving settings.
+		String starter_scene_text;
+		String starter_scene_path;
+		if (project_type_button_group.is_valid() && project_type_button_group->get_pressed_button()) {
+			String project_type = project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
+
+			if (project_type == "2d") {
+				starter_scene_path = "main_2d.tscn";
+				starter_scene_text =
+						"[gd_scene load_steps=2 format=3]\n"
+						"\n"
+						"[sub_resource type=\"LabelSettings\" id=\"LabelSettings_1\"]\n"
+						"font_size = 32\n"
+						"\n"
+						"[node name=\"Main2D\" type=\"Node2D\"]\n"
+						"\n"
+						"[node name=\"HUD\" type=\"CanvasLayer\" parent=\".\"]\n"
+						"\n"
+						"[node name=\"Label\" type=\"Label\" parent=\"HUD\"]\n"
+						"offset_left = 24.0\n"
+						"offset_top = 24.0\n"
+						"offset_right = 700.0\n"
+						"offset_bottom = 80.0\n"
+						"text = \"Osefe 2D — Press F5 to run!\"\n"
+						"label_settings = SubResource(\"LabelSettings_1\")\n";
+			} else if (project_type == "3d") {
+				starter_scene_path = "main_3d.tscn";
+				starter_scene_text =
+						"[gd_scene load_steps=6 format=3]\n"
+						"\n"
+						"[sub_resource type=\"ProceduralSkyMaterial\" id=\"ProceduralSkyMaterial_1\"]\n"
+						"\n"
+						"[sub_resource type=\"Sky\" id=\"Sky_1\"]\n"
+						"sky_material = SubResource(\"ProceduralSkyMaterial_1\")\n"
+						"\n"
+						"[sub_resource type=\"Environment\" id=\"Environment_1\"]\n"
+						"background_mode = 2\n"
+						"sky = SubResource(\"Sky_1\")\n"
+						"\n"
+						"[sub_resource type=\"PlaneMesh\" id=\"PlaneMesh_1\"]\n"
+						"size = Vector2(10, 10)\n"
+						"\n"
+						"[sub_resource type=\"BoxMesh\" id=\"BoxMesh_1\"]\n"
+						"size = Vector3(1, 1, 1)\n"
+						"\n"
+						"[node name=\"Main3D\" type=\"Node3D\"]\n"
+						"\n"
+						"[node name=\"WorldEnvironment\" type=\"WorldEnvironment\" parent=\".\"]\n"
+						"environment = SubResource(\"Environment_1\")\n"
+						"\n"
+						"[node name=\"DirectionalLight3D\" type=\"DirectionalLight3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 0)\n"
+						"light_energy = 1.2\n"
+						"shadow_enabled = true\n"
+						"\n"
+						"[node name=\"Camera3D\" type=\"Camera3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)\n"
+						"\n"
+						"[node name=\"Ground\" type=\"MeshInstance3D\" parent=\".\"]\n"
+						"mesh = SubResource(\"PlaneMesh_1\")\n"
+						"\n"
+						"[node name=\"Cube\" type=\"MeshInstance3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)\n"
+						"mesh = SubResource(\"BoxMesh_1\")\n";
+			} else if (project_type == "hybrid") {
+				starter_scene_path = "main_hybrid.tscn";
+				starter_scene_text =
+						"[gd_scene load_steps=7 format=3]\n"
+						"\n"
+						"[sub_resource type=\"ProceduralSkyMaterial\" id=\"ProceduralSkyMaterial_1\"]\n"
+						"\n"
+						"[sub_resource type=\"Sky\" id=\"Sky_1\"]\n"
+						"sky_material = SubResource(\"ProceduralSkyMaterial_1\")\n"
+						"\n"
+						"[sub_resource type=\"Environment\" id=\"Environment_1\"]\n"
+						"background_mode = 2\n"
+						"sky = SubResource(\"Sky_1\")\n"
+						"\n"
+						"[sub_resource type=\"PlaneMesh\" id=\"PlaneMesh_1\"]\n"
+						"size = Vector2(10, 10)\n"
+						"\n"
+						"[sub_resource type=\"BoxMesh\" id=\"BoxMesh_1\"]\n"
+						"size = Vector3(1, 1, 1)\n"
+						"\n"
+						"[sub_resource type=\"LabelSettings\" id=\"LabelSettings_1\"]\n"
+						"font_size = 28\n"
+						"\n"
+						"[node name=\"MainHybrid\" type=\"Node3D\"]\n"
+						"\n"
+						"[node name=\"WorldEnvironment\" type=\"WorldEnvironment\" parent=\".\"]\n"
+						"environment = SubResource(\"Environment_1\")\n"
+						"\n"
+						"[node name=\"DirectionalLight3D\" type=\"DirectionalLight3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 0)\n"
+						"light_energy = 1.2\n"
+						"shadow_enabled = true\n"
+						"\n"
+						"[node name=\"Camera3D\" type=\"Camera3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)\n"
+						"\n"
+						"[node name=\"Ground\" type=\"MeshInstance3D\" parent=\".\"]\n"
+						"mesh = SubResource(\"PlaneMesh_1\")\n"
+						"\n"
+						"[node name=\"Cube\" type=\"MeshInstance3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)\n"
+						"mesh = SubResource(\"BoxMesh_1\")\n"
+						"\n"
+						"[node name=\"HUD\" type=\"CanvasLayer\" parent=\".\"]\n"
+						"\n"
+						"[node name=\"Title\" type=\"Label\" parent=\"HUD\"]\n"
+						"offset_left = 24.0\n"
+						"offset_top = 24.0\n"
+						"offset_right = 800.0\n"
+						"offset_bottom = 80.0\n"
+						"text = \"Osefe Hybrid — 3D world + 2D UI, press F5!\"\n"
+						"label_settings = SubResource(\"LabelSettings_1\")\n";
+			}
+
+			if (!starter_scene_path.is_empty()) {
+				initial_settings["application/run/main_scene"] = "res://" + starter_scene_path;
+			}
+
+			// Remember the chosen project type for the next time.
+			EditorSettings::get_singleton()->set("project_manager/default_project_type", project_type);
+			EditorSettings::get_singleton()->save();
+		}
+
 		ProjectSettings::CustomMap extra_settings = EditorNode::get_initial_settings();
 		for (const KeyValue<String, Variant> &extra_setting : extra_settings) {
 			// Merge with other initial settings defined above.
@@ -614,6 +768,16 @@ void ProjectDialog::ok_pressed() {
 			return;
 		}
 		fa_icon->store_string(get_default_project_icon());
+
+		// Osefe: write the ready-to-run starter scene for the selected project type.
+		if (!starter_scene_path.is_empty()) {
+			Ref<FileAccess> fa_scene = FileAccess::open(path.path_join(starter_scene_path), FileAccess::WRITE, &err);
+			if (err != OK) {
+				_set_message(TTRC("Couldn't create starter scene in project path."), MESSAGE_ERROR);
+				return;
+			}
+			fa_scene->store_string(starter_scene_text);
+		}
 
 		EditorVCSInterface::create_vcs_metadata_files(EditorVCSInterface::VCSMetadata(vcs_metadata_selection->get_selected()), path);
 
@@ -1102,6 +1266,84 @@ ProjectDialog::ProjectDialog() {
 	msg->set_custom_minimum_size(Size2(200, 0) * EDSCALE);
 	msg->set_autowrap_mode(TextServer::AUTOWRAP_WORD_SMART);
 	vb->add_child(msg);
+
+	// Project type selection (Osefe: 2D / 3D / Hybrid / Blank).
+	project_type_container = memnew(VBoxContainer);
+	vb->add_child(project_type_container);
+	l = memnew(Label);
+	l->set_text(TTRC("Project Type:"));
+	project_type_container->add_child(l);
+	HBoxContainer *ptshc = memnew(HBoxContainer);
+	project_type_container->add_child(ptshc);
+
+	String default_project_type = "hybrid";
+	if (EditorSettings::get_singleton()->has_setting("project_manager/default_project_type")) {
+		default_project_type = EditorSettings::get_singleton()->get_setting("project_manager/default_project_type");
+	}
+
+	Container *ptvb = memnew(VBoxContainer);
+	ptshc->add_child(ptvb);
+	project_type_button_group.instantiate();
+
+	Button *pt_button = memnew(CheckBox);
+	pt_button->set_button_group(project_type_button_group);
+	pt_button->set_text(TTRC("2D"));
+	pt_button->set_meta(SNAME("project_type"), "2d");
+	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
+	ptvb->add_child(pt_button);
+	if (default_project_type == "2d") {
+		pt_button->set_pressed(true);
+	}
+	pt_button = memnew(CheckBox);
+	pt_button->set_button_group(project_type_button_group);
+	pt_button->set_text(TTRC("3D"));
+	pt_button->set_meta(SNAME("project_type"), "3d");
+	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
+	ptvb->add_child(pt_button);
+	if (default_project_type == "3d") {
+		pt_button->set_pressed(true);
+	}
+	pt_button = memnew(CheckBox);
+	pt_button->set_button_group(project_type_button_group);
+	pt_button->set_text(TTRC("Hybrid (2D + 3D)"));
+	pt_button->set_meta(SNAME("project_type"), "hybrid");
+	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
+	ptvb->add_child(pt_button);
+	if (default_project_type == "hybrid") {
+		pt_button->set_pressed(true);
+	}
+	pt_button = memnew(CheckBox);
+	pt_button->set_button_group(project_type_button_group);
+	pt_button->set_text(TTRC("Blank"));
+	pt_button->set_meta(SNAME("project_type"), "blank");
+	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
+	ptvb->add_child(pt_button);
+	if (default_project_type == "blank") {
+		pt_button->set_pressed(true);
+	}
+
+	ptshc->add_child(memnew(VSeparator));
+
+	// Right hand side, used for text explaining each choice.
+	ptvb = memnew(VBoxContainer);
+	ptvb->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+	ptshc->add_child(ptvb);
+	project_type_info = memnew(Label);
+	project_type_info->set_auto_translate_mode(AUTO_TRANSLATE_MODE_DISABLED);
+	project_type_info->set_focus_mode(Control::FOCUS_ACCESSIBILITY);
+	project_type_info->set_modulate(Color(1, 1, 1, 0.7));
+	ptvb->add_child(project_type_info);
+	// Initialize the description for the pressed (or default) type.
+	if (project_type_button_group->get_pressed_button()) {
+		_project_type_selected();
+	}
+
+	l = memnew(Label);
+	l->set_focus_mode(Control::FOCUS_ACCESSIBILITY);
+	l->set_text(TTRC("The project type creates a ready-to-run starter scene for you."));
+	l->set_custom_minimum_size(Size2(0, 20) * EDSCALE);
+	l->set_modulate(Color(1, 1, 1, 0.7));
+	project_type_container->add_child(l);
 
 	// Renderer selection.
 	renderer_container = memnew(VBoxContainer);

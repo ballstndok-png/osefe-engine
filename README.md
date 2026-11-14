@@ -22,6 +22,7 @@ out-of-the-box visuals.
 - New default color preset **"Osefe (Modern)"** (deep navy-violet `#0B0C16` + electric violet accent `#8C66FF`, crisper accent borders, richer contrast)
 - Desktop rendering defaults raised one quality step: soft shadow filter
   (Medium) and anisotropic filtering (8×) — mobile overrides untouched
+- **Hybrid project type** 🆕: new projects can start as **2D**, **3D**, **Hybrid (2D + 3D)** or **Blank** — Hybrid creates a ready-to-run scene combining a 3D world (camera, light, sky, ground, cube) with a 2D HUD layer, so pressing F5 immediately runs a 2D-over-3D game
 - **Beginner-friendly defaults**: editor UI follows system language (`auto`), auto-save on focus loss, snappier code completion (0.15s)
 - **Osefe AI Boost**: stronger out-of-the-box game AI defaults
   - 3D navigation mesh precision doubled: default cell size/height `0.125` (was `0.25`) — smoother agent paths that hug walls less
