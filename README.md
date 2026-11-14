@@ -22,6 +22,13 @@ out-of-the-box visuals.
 - New default color preset **"Osefe (Modern)"** (deep dark `#0E0F17` + violet `#7B5BFF`)
 - Desktop rendering defaults raised one quality step: soft shadow filter
   (Medium) and anisotropic filtering (8×) — mobile overrides untouched
+- **Osefe AI Boost**: stronger out-of-the-box game AI defaults
+  - 3D navigation mesh precision doubled: default cell size/height `0.125` (was `0.25`) — smoother agent paths that hug walls less
+  - 2D navigation polygon precision doubled: default cell size `0.5` px (was `1.0`)
+  - Pathfinding limits raised: `path_search_max_polygons` `16384` (was `4096`) for huge levels
+  - Smoother agent following: `path_desired_distance` halved for NavigationAgent2D/3D
+  - Dense-crowd avoidance: default avoidance `max_neighbors` `20` (was `10`)
+  - All values remain fully configurable per-project via ProjectSettings — no breaking changes
 - Full project/API compatibility with Godot 4.7 projects
 
 ## Building from source

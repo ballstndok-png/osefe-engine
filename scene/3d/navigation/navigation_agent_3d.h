@@ -57,7 +57,7 @@ class NavigationAgent3D : public Node {
 	NavigationPathQueryParameters3D::PathPostProcessing path_postprocessing = NavigationPathQueryParameters3D::PathPostProcessing::PATH_POSTPROCESSING_CORRIDORFUNNEL;
 	BitField<NavigationPathQueryParameters3D::PathMetadataFlags> path_metadata_flags = NavigationPathQueryParameters3D::PathMetadataFlags::PATH_METADATA_INCLUDE_ALL;
 
-	real_t path_desired_distance = 1.0;
+	real_t path_desired_distance = 0.5;
 	real_t target_desired_distance = 1.0;
 	real_t height = NavigationDefaults3D::AVOIDANCE_AGENT_HEIGHT;
 	real_t radius = NavigationDefaults3D::AVOIDANCE_AGENT_RADIUS;

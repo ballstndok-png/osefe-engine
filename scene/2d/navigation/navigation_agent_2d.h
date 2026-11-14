@@ -54,7 +54,7 @@ class NavigationAgent2D : public Node {
 	NavigationPathQueryParameters2D::PathPostProcessing path_postprocessing = NavigationPathQueryParameters2D::PathPostProcessing::PATH_POSTPROCESSING_CORRIDORFUNNEL;
 	BitField<NavigationPathQueryParameters2D::PathMetadataFlags> path_metadata_flags = NavigationPathQueryParameters2D::PathMetadataFlags::PATH_METADATA_INCLUDE_ALL;
 
-	real_t path_desired_distance = 20.0;
+	real_t path_desired_distance = 10.0;
 	real_t target_desired_distance = 10.0;
 	real_t radius = NavigationDefaults2D::AVOIDANCE_AGENT_RADIUS;
 	real_t neighbor_distance = NavigationDefaults2D::AVOIDANCE_AGENT_NEIGHBOR_DISTANCE;
