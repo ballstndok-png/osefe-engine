@@ -503,6 +503,18 @@ void ProjectDialog::_project_type_selected() {
 		project_type_info->set_text(
 				String::utf8("•  ") + TTR("Starter scene with camera + lighting.") +
 				String::utf8("\n•  ") + TTR("Ready-to-run 3D game out of the box."));
+	} else if (project_type == "platformer") {
+		project_type_info->set_text(
+				String::utf8("•  ") + TTR("Complete playable platformer: running + jumping player, platforms.") +
+				String::utf8("\n•  ") + TTR("Arrow keys to move, Space to jump. Press F5 and play!"));
+	} else if (project_type == "topdown") {
+		project_type_info->set_text(
+				String::utf8("•  ") + TTR("Complete playable top-down game: 8-direction player, coins to collect.") +
+				String::utf8("\n•  ") + TTR("Arrow keys to move. Press F5 and play!"));
+	} else if (project_type == "fps") {
+		project_type_info->set_text(
+				String::utf8("•  ") + TTR("Complete playable FPS: mouse look, walking, jumping, obstacles.") +
+				String::utf8("\n•  ") + TTR("Click to capture mouse. Arrows/WASD to move, Space to jump."));
 	} else if (project_type == "hybrid") {
 		project_type_info->set_text(
 				String::utf8("•  ") + TTR("Osefe signature mode: 3D world + 2D HUD in one scene.") +
@@ -625,6 +637,8 @@ void ProjectDialog::ok_pressed() {
 		// Osefe: compute the starter scene for the selected project type before saving settings.
 		String starter_scene_text;
 		String starter_scene_path;
+		String starter_script_path;
+		String starter_script_text;
 		if (project_type_button_group.is_valid() && project_type_button_group->get_pressed_button()) {
 			String project_type = project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
 
@@ -686,6 +700,404 @@ void ProjectDialog::ok_pressed() {
 						"[node name=\"Cube\" type=\"MeshInstance3D\" parent=\".\"]\n"
 						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)\n"
 						"mesh = SubResource(\"BoxMesh_1\")\n";
+			} else if (project_type == "platformer") {
+				starter_scene_path = "main_platformer.tscn";
+				starter_script_path = "platformer_player.gd";
+				starter_script_text =
+						"extends CharacterBody2D\n"
+						"\n"
+						"const SPEED := 400.0\n"
+						"const JUMP_VELOCITY := -700.0\n"
+						"const GRAVITY := 1600.0\n"
+						"\n"
+						"func _physics_process(delta: float) -> void:\n"
+						"\tif not is_on_floor():\n"
+						"\t\tvelocity.y += GRAVITY * delta\n"
+						"\tif Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():\n"
+						"\t\tvelocity.y = JUMP_VELOCITY\n"
+						"\tvar direction := Input.get_axis(\"ui_left\", \"ui_right\")\n"
+						"\tif direction:\n"
+						"\t\tvelocity.x = direction * SPEED\n"
+						"\telse:\n"
+						"\t\tvelocity.x = move_toward(velocity.x, 0.0, SPEED)\n"
+						"\tmove_and_slide()\n";
+				starter_scene_text =
+						"[gd_scene load_steps=5 format=3]\n"
+						"\n"
+						"[ext_resource type=\"Script\" path=\"res://platformer_player.gd\" id=\"1_player\"]\n"
+						"\n"
+						"[sub_resource type=\"RectangleShape2D\" id=\"RectangleShape2D_ground\"]\n"
+						"size = Vector2(1280, 80)\n"
+						"\n"
+						"[sub_resource type=\"RectangleShape2D\" id=\"RectangleShape2D_platform\"]\n"
+						"size = Vector2(200, 20)\n"
+						"\n"
+						"[sub_resource type=\"RectangleShape2D\" id=\"RectangleShape2D_player\"]\n"
+						"size = Vector2(40, 60)\n"
+						"\n"
+						"[node name=\"MainPlatformer\" type=\"Node2D\"]\n"
+						"\n"
+						"[node name=\"Ground\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(640, 440)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Ground\"]\n"
+						"shape = SubResource(\"RectangleShape2D_ground\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Ground\"]\n"
+						"offset_left = -640.0\n"
+						"offset_top = -40.0\n"
+						"offset_right = 640.0\n"
+						"offset_bottom = 40.0\n"
+						"color = Color(0.24, 0.2, 0.36, 1)\n"
+						"\n"
+						"[node name=\"Platform1\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(340, 340)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Platform1\"]\n"
+						"shape = SubResource(\"RectangleShape2D_platform\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Platform1\"]\n"
+						"offset_left = -100.0\n"
+						"offset_top = -10.0\n"
+						"offset_right = 100.0\n"
+						"offset_bottom = 10.0\n"
+						"color = Color(0.55, 0.4, 1, 1)\n"
+						"\n"
+						"[node name=\"Platform2\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(560, 260)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Platform2\"]\n"
+						"shape = SubResource(\"RectangleShape2D_platform\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Platform2\"]\n"
+						"offset_left = -100.0\n"
+						"offset_top = -10.0\n"
+						"offset_right = 100.0\n"
+						"offset_bottom = 10.0\n"
+						"color = Color(0.55, 0.4, 1, 1)\n"
+						"\n"
+						"[node name=\"Platform3\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(790, 190)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Platform3\"]\n"
+						"shape = SubResource(\"RectangleShape2D_platform\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Platform3\"]\n"
+						"offset_left = -100.0\n"
+						"offset_top = -10.0\n"
+						"offset_right = 100.0\n"
+						"offset_bottom = 10.0\n"
+						"color = Color(0.55, 0.4, 1, 1)\n"
+						"\n"
+						"[node name=\"Player\" type=\"CharacterBody2D\" parent=\".\"]\n"
+						"position = Vector2(160, 360)\n"
+						"script = ExtResource(\"1_player\")\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Player\"]\n"
+						"shape = SubResource(\"RectangleShape2D_player\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Player\"]\n"
+						"offset_left = -20.0\n"
+						"offset_top = -30.0\n"
+						"offset_right = 20.0\n"
+						"offset_bottom = 30.0\n"
+						"color = Color(0.9, 0.85, 1, 1)\n"
+						"\n"
+						"[node name=\"Camera2D\" type=\"Camera2D\" parent=\"Player\"]\n"
+						"position_smoothing_enabled = true\n"
+						"position_smoothing_speed = 8.0\n"
+						"\n"
+						"[node name=\"HUD\" type=\"CanvasLayer\" parent=\".\"]\n"
+						"\n"
+						"[node name=\"Label\" type=\"Label\" parent=\"HUD\"]\n"
+						"offset_left = 24.0\n"
+						"offset_top = 24.0\n"
+						"offset_right = 760.0\n"
+						"offset_bottom = 70.0\n"
+						"text = \"Osefe Platformer — Arrow keys to move, Space to jump!\"\n"
+						"theme_override_font_sizes/font_size = 24\n";
+			} else if (project_type == "topdown") {
+				starter_scene_path = "main_topdown.tscn";
+				starter_script_path = "topdown_player.gd";
+				starter_script_text =
+						"extends CharacterBody2D\n"
+						"\n"
+						"const SPEED := 350.0\n"
+						"var score := 0\n"
+						"\n"
+						"func _physics_process(_delta: float) -> void:\n"
+						"\tvar direction := Vector2(Input.get_axis(\"ui_left\", \"ui_right\"), Input.get_axis(\"ui_up\", \"ui_down\"))\n"
+						"\tvelocity = direction.normalized() * SPEED\n"
+						"\tmove_and_slide()\n"
+						"\tfor area in $PickupArea.get_overlapping_areas():\n"
+						"\t\tif area.is_in_group(\"coin\"):\n"
+						"\t\t\tarea.queue_free()\n"
+						"\t\t\tscore += 1\n"
+						"\t\t\tif score == 4:\n"
+						"\t\t\t\t$HUD/Score.text = \"You win! All coins collected!\"\n"
+						"\t\t\telse:\n"
+						"\t\t\t\t$HUD/Score.text = \"Coins: %d / 4\" % score\n";
+				starter_scene_text =
+						"[gd_scene load_steps=7 format=3]\n"
+						"\n"
+						"[ext_resource type=\"Script\" path=\"res://topdown_player.gd\" id=\"1_player\"]\n"
+						"\n"
+						"[sub_resource type=\"CircleShape2D\" id=\"CircleShape2D_player\"]\n"
+						"radius = 20.0\n"
+						"\n"
+						"[sub_resource type=\"CircleShape2D\" id=\"CircleShape2D_pickup\"]\n"
+						"radius = 32.0\n"
+						"\n"
+						"[sub_resource type=\"CircleShape2D\" id=\"CircleShape2D_coin\"]\n"
+						"radius = 12.0\n"
+						"\n"
+						"[sub_resource type=\"RectangleShape2D\" id=\"RectangleShape2D_wall_h\"]\n"
+						"size = Vector2(1080, 40)\n"
+						"\n"
+						"[sub_resource type=\"RectangleShape2D\" id=\"RectangleShape2D_wall_v\"]\n"
+						"size = Vector2(40, 680)\n"
+						"\n"
+						"[node name=\"MainTopDown\" type=\"Node2D\"]\n"
+						"\n"
+						"[node name=\"WallTop\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(540, -20)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"WallTop\"]\n"
+						"shape = SubResource(\"RectangleShape2D_wall_h\")\n"
+						"\n"
+						"[node name=\"WallBottom\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(540, 660)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"WallBottom\"]\n"
+						"shape = SubResource(\"RectangleShape2D_wall_h\")\n"
+						"\n"
+						"[node name=\"WallLeft\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(-20, 320)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"WallLeft\"]\n"
+						"shape = SubResource(\"RectangleShape2D_wall_v\")\n"
+						"\n"
+						"[node name=\"WallRight\" type=\"StaticBody2D\" parent=\".\"]\n"
+						"position = Vector2(1100, 320)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"WallRight\"]\n"
+						"shape = SubResource(\"RectangleShape2D_wall_v\")\n"
+						"\n"
+						"[node name=\"Coin1\" type=\"Area2D\" parent=\".\" groups=[\"coin\"]]\n"
+						"position = Vector2(160, 160)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Coin1\"]\n"
+						"shape = SubResource(\"CircleShape2D_coin\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Coin1\"]\n"
+						"offset_left = -12.0\n"
+						"offset_top = -12.0\n"
+						"offset_right = 12.0\n"
+						"offset_bottom = 12.0\n"
+						"color = Color(1, 0.84, 0.3, 1)\n"
+						"\n"
+						"[node name=\"Coin2\" type=\"Area2D\" parent=\".\" groups=[\"coin\"]]\n"
+						"position = Vector2(920, 160)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Coin2\"]\n"
+						"shape = SubResource(\"CircleShape2D_coin\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Coin2\"]\n"
+						"offset_left = -12.0\n"
+						"offset_top = -12.0\n"
+						"offset_right = 12.0\n"
+						"offset_bottom = 12.0\n"
+						"color = Color(1, 0.84, 0.3, 1)\n"
+						"\n"
+						"[node name=\"Coin3\" type=\"Area2D\" parent=\".\" groups=[\"coin\"]]\n"
+						"position = Vector2(160, 480)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Coin3\"]\n"
+						"shape = SubResource(\"CircleShape2D_coin\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Coin3\"]\n"
+						"offset_left = -12.0\n"
+						"offset_top = -12.0\n"
+						"offset_right = 12.0\n"
+						"offset_bottom = 12.0\n"
+						"color = Color(1, 0.84, 0.3, 1)\n"
+						"\n"
+						"[node name=\"Coin4\" type=\"Area2D\" parent=\".\" groups=[\"coin\"]]\n"
+						"position = Vector2(920, 480)\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Coin4\"]\n"
+						"shape = SubResource(\"CircleShape2D_coin\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Coin4\"]\n"
+						"offset_left = -12.0\n"
+						"offset_top = -12.0\n"
+						"offset_right = 12.0\n"
+						"offset_bottom = 12.0\n"
+						"color = Color(1, 0.84, 0.3, 1)\n"
+						"\n"
+						"[node name=\"Player\" type=\"CharacterBody2D\" parent=\".\"]\n"
+						"position = Vector2(540, 320)\n"
+						"script = ExtResource(\"1_player\")\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Player\"]\n"
+						"shape = SubResource(\"CircleShape2D_player\")\n"
+						"\n"
+						"[node name=\"PickupArea\" type=\"Area2D\" parent=\"Player\"]\n"
+						"\n"
+						"[node name=\"CollisionShape2D\" type=\"CollisionShape2D\" parent=\"Player/PickupArea\"]\n"
+						"shape = SubResource(\"CircleShape2D_pickup\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"ColorRect\" parent=\"Player\"]\n"
+						"offset_left = -20.0\n"
+						"offset_top = -20.0\n"
+						"offset_right = 20.0\n"
+						"offset_bottom = 20.0\n"
+						"color = Color(0.9, 0.85, 1, 1)\n"
+						"\n"
+						"[node name=\"Camera2D\" type=\"Camera2D\" parent=\"Player\"]\n"
+						"position_smoothing_enabled = true\n"
+						"position_smoothing_speed = 8.0\n"
+						"\n"
+						"[node name=\"HUD\" type=\"CanvasLayer\" parent=\"Player\"]\n"
+						"\n"
+						"[node name=\"Score\" type=\"Label\" parent=\"Player/HUD\"]\n"
+						"offset_left = 24.0\n"
+						"offset_top = 24.0\n"
+						"offset_right = 760.0\n"
+						"offset_bottom = 70.0\n"
+						"text = \"Coins: 0 / 4\"\n"
+						"theme_override_font_sizes/font_size = 24\n";
+			} else if (project_type == "fps") {
+				starter_scene_path = "main_fps.tscn";
+				starter_script_path = "fps_player.gd";
+				starter_script_text =
+						"extends CharacterBody3D\n"
+						"\n"
+						"const SPEED := 6.0\n"
+						"const JUMP_VELOCITY := 4.5\n"
+						"const GRAVITY := 9.8\n"
+						"var pitch := 0.0\n"
+						"\n"
+						"func _ready() -> void:\n"
+						"\tInput.mouse_mode = Input.MOUSE_MODE_CAPTURED\n"
+						"\n"
+						"func _unhandled_input(event: InputEvent) -> void:\n"
+						"\tif event is InputEventMouseMotion:\n"
+						"\t\trotate_y(-event.relative.x * 0.002)\n"
+						"\t\tpitch = clampf(pitch - event.relative.y * 0.002, -1.2, 1.2)\n"
+						"\t\t$Camera3D.rotation.x = pitch\n"
+						"\tif event.is_action_pressed(\"ui_cancel\"):\n"
+						"\t\tInput.mouse_mode = Input.MOUSE_MODE_VISIBLE\n"
+						"\n"
+						"func _physics_process(delta: float) -> void:\n"
+						"\tif not is_on_floor():\n"
+						"\t\tvelocity.y -= GRAVITY * delta\n"
+						"\tif Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():\n"
+						"\t\tvelocity.y = JUMP_VELOCITY\n"
+						"\tvar input_dir := Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")\n"
+						"\tvar direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()\n"
+						"\tif direction:\n"
+						"\t\tvelocity.x = direction.x * SPEED\n"
+						"\t\tvelocity.z = direction.z * SPEED\n"
+						"\telse:\n"
+						"\t\tvelocity.x = move_toward(velocity.x, 0.0, SPEED)\n"
+						"\t\tvelocity.z = move_toward(velocity.z, 0.0, SPEED)\n"
+						"\tmove_and_slide()\n";
+				starter_scene_text =
+						"[gd_scene load_steps=10 format=3]\n"
+						"\n"
+						"[ext_resource type=\"Script\" path=\"res://fps_player.gd\" id=\"1_player\"]\n"
+						"\n"
+						"[sub_resource type=\"ProceduralSkyMaterial\" id=\"ProceduralSkyMaterial_1\"]\n"
+						"\n"
+						"[sub_resource type=\"Sky\" id=\"Sky_1\"]\n"
+						"sky_material = SubResource(\"ProceduralSkyMaterial_1\")\n"
+						"\n"
+						"[sub_resource type=\"Environment\" id=\"Environment_1\"]\n"
+						"background_mode = 2\n"
+						"sky = SubResource(\"Sky_1\")\n"
+						"\n"
+						"[sub_resource type=\"BoxMesh\" id=\"BoxMesh_ground\"]\n"
+						"size = Vector3(40, 1, 40)\n"
+						"\n"
+						"[sub_resource type=\"BoxShape3D\" id=\"BoxShape3D_ground\"]\n"
+						"size = Vector3(40, 1, 40)\n"
+						"\n"
+						"[sub_resource type=\"BoxMesh\" id=\"BoxMesh_obstacle\"]\n"
+						"size = Vector3(2, 2, 2)\n"
+						"\n"
+						"[sub_resource type=\"BoxShape3D\" id=\"BoxShape3D_obstacle\"]\n"
+						"size = Vector3(2, 2, 2)\n"
+						"\n"
+						"[sub_resource type=\"CapsuleShape3D\" id=\"CapsuleShape3D_player\"]\n"
+						"radius = 0.4\n"
+						"height = 1.8\n"
+						"\n"
+						"[node name=\"MainFPS\" type=\"Node3D\"]\n"
+						"\n"
+						"[node name=\"WorldEnvironment\" type=\"WorldEnvironment\" parent=\".\"]\n"
+						"environment = SubResource(\"Environment_1\")\n"
+						"\n"
+						"[node name=\"DirectionalLight3D\" type=\"DirectionalLight3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 0)\n"
+						"light_energy = 1.2\n"
+						"shadow_enabled = true\n"
+						"\n"
+						"[node name=\"Ground\" type=\"StaticBody3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)\n"
+						"\n"
+						"[node name=\"CollisionShape3D\" type=\"CollisionShape3D\" parent=\"Ground\"]\n"
+						"shape = SubResource(\"BoxShape3D_ground\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"MeshInstance3D\" parent=\"Ground\"]\n"
+						"mesh = SubResource(\"BoxMesh_ground\")\n"
+						"\n"
+						"[node name=\"Obstacle1\" type=\"StaticBody3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)\n"
+						"\n"
+						"[node name=\"CollisionShape3D\" type=\"CollisionShape3D\" parent=\"Obstacle1\"]\n"
+						"shape = SubResource(\"BoxShape3D_obstacle\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"MeshInstance3D\" parent=\"Obstacle1\"]\n"
+						"mesh = SubResource(\"BoxMesh_obstacle\")\n"
+						"\n"
+						"[node name=\"Obstacle2\" type=\"StaticBody3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -2)\n"
+						"\n"
+						"[node name=\"CollisionShape3D\" type=\"CollisionShape3D\" parent=\"Obstacle2\"]\n"
+						"shape = SubResource(\"BoxShape3D_obstacle\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"MeshInstance3D\" parent=\"Obstacle2\"]\n"
+						"mesh = SubResource(\"BoxMesh_obstacle\")\n"
+						"\n"
+						"[node name=\"Obstacle3\" type=\"StaticBody3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6)\n"
+						"\n"
+						"[node name=\"CollisionShape3D\" type=\"CollisionShape3D\" parent=\"Obstacle3\"]\n"
+						"shape = SubResource(\"BoxShape3D_obstacle\")\n"
+						"\n"
+						"[node name=\"Visual\" type=\"MeshInstance3D\" parent=\"Obstacle3\"]\n"
+						"mesh = SubResource(\"BoxMesh_obstacle\")\n"
+						"\n"
+						"[node name=\"Player\" type=\"CharacterBody3D\" parent=\".\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)\n"
+						"script = ExtResource(\"1_player\")\n"
+						"\n"
+						"[node name=\"CollisionShape3D\" type=\"CollisionShape3D\" parent=\"Player\"]\n"
+						"shape = SubResource(\"CapsuleShape3D_player\")\n"
+						"\n"
+						"[node name=\"Camera3D\" type=\"Camera3D\" parent=\"Player\"]\n"
+						"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)\n"
+						"\n"
+						"[node name=\"HUD\" type=\"CanvasLayer\" parent=\".\"]\n"
+						"\n"
+						"[node name=\"Label\" type=\"Label\" parent=\"HUD\"]\n"
+						"offset_left = 24.0\n"
+						"offset_top = 24.0\n"
+						"offset_right = 900.0\n"
+						"offset_bottom = 70.0\n"
+						"text = \"Osefe FPS — Mouse to look, Arrows/WASD to move, Space to jump, Esc to release mouse\"\n"
+						"theme_override_font_sizes/font_size = 22\n";
 			} else if (project_type == "hybrid") {
 				starter_scene_path = "main_hybrid.tscn";
 				starter_scene_text =
@@ -769,8 +1181,16 @@ void ProjectDialog::ok_pressed() {
 		}
 		fa_icon->store_string(get_default_project_icon());
 
-		// Osefe: write the ready-to-run starter scene for the selected project type.
+		// Osefe: write the ready-to-run starter scene (and script) for the selected project type.
 		if (!starter_scene_path.is_empty()) {
+			if (!starter_script_path.is_empty()) {
+				Ref<FileAccess> fa_script = FileAccess::open(path.path_join(starter_script_path), FileAccess::WRITE, &err);
+				if (err != OK) {
+					_set_message(TTRC("Couldn't create starter script in project path."), MESSAGE_ERROR);
+					return;
+				}
+				fa_script->store_string(starter_script_text);
+			}
 			Ref<FileAccess> fa_scene = FileAccess::open(path.path_join(starter_scene_path), FileAccess::WRITE, &err);
 			if (err != OK) {
 				_set_message(TTRC("Couldn't create starter scene in project path."), MESSAGE_ERROR);
@@ -1310,6 +1730,33 @@ ProjectDialog::ProjectDialog() {
 	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
 	ptvb->add_child(pt_button);
 	if (default_project_type == "hybrid") {
+		pt_button->set_pressed(true);
+	}
+	pt_button = memnew(CheckBox);
+	pt_button->set_button_group(project_type_button_group);
+	pt_button->set_text(TTRC("Platformer 2D (ready game)"));
+	pt_button->set_meta(SNAME("project_type"), "platformer");
+	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
+	ptvb->add_child(pt_button);
+	if (default_project_type == "platformer") {
+		pt_button->set_pressed(true);
+	}
+	pt_button = memnew(CheckBox);
+	pt_button->set_button_group(project_type_button_group);
+	pt_button->set_text(TTRC("Top-Down 2D (ready game)"));
+	pt_button->set_meta(SNAME("project_type"), "topdown");
+	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
+	ptvb->add_child(pt_button);
+	if (default_project_type == "topdown") {
+		pt_button->set_pressed(true);
+	}
+	pt_button = memnew(CheckBox);
+	pt_button->set_button_group(project_type_button_group);
+	pt_button->set_text(TTRC("FPS 3D (ready game)"));
+	pt_button->set_meta(SNAME("project_type"), "fps");
+	pt_button->connect(SceneStringName(pressed), callable_mp(this, &ProjectDialog::_project_type_selected));
+	ptvb->add_child(pt_button);
+	if (default_project_type == "fps") {
 		pt_button->set_pressed(true);
 	}
 	pt_button = memnew(CheckBox);

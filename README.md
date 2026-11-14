@@ -24,6 +24,7 @@ out-of-the-box visuals.
 - New default color preset **"Osefe (Modern)"** (deep navy-violet `#0B0C16` + electric violet accent `#8C66FF`, crisper accent borders, richer contrast)
 - Desktop rendering defaults raised one quality step: soft shadow filter
   (Medium) and anisotropic filtering (8×) — mobile overrides untouched
+- **Instant Games** 🆕✨: create a **complete playable game in one click** — Platformer 2D (running + jumping), Top-Down 2D (8-direction movement + coin collecting with score), and FPS 3D (mouse look + walking + jumping) templates ship with physics, controls, camera and HUD ready. Press F5 immediately after creating a project and play. Godot gives you an empty folder — Osefe gives you a game.
 - **Hybrid project type** 🆕: new projects can start as **2D**, **3D**, **Hybrid (2D + 3D)** or **Blank** — Hybrid creates a ready-to-run scene combining a 3D world (camera, light, sky, ground, cube) with a 2D HUD layer, so pressing F5 immediately runs a 2D-over-3D game
 - **Beginner-friendly defaults**: editor UI follows system language (`auto`), auto-save on focus loss, snappier code completion (0.15s)
 - **Osefe AI Boost**: stronger out-of-the-box game AI defaults
