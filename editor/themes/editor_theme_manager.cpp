@@ -349,9 +349,11 @@ EditorThemeManager::ThemeConfiguration EditorThemeManager::_create_theme_config(
 				preset_contrast = light_contrast;
 				preset_icon_saturation = 1;
 			} else if (config.preset == "Osefe (Modern)") {
-				preset_accent_color = Color(0.48, 0.36, 1.0);
-				preset_base_color = Color(0.055, 0.059, 0.09);
-				preset_contrast = 0.3;
+				preset_accent_color = Color(0.55, 0.40, 1.0); // Electric violet, brighter and more vivid.
+				preset_base_color = Color(0.042, 0.048, 0.086); // Deep navy-violet, richer than flat gray.
+				preset_contrast = 0.35;
+				preset_draw_extra_borders = true; // Crisp accent borders for a sharper, more defined UI.
+				preset_icon_saturation = 2.0;
 			} else if (config.preset == "Solarized (Dark)") {
 				preset_accent_color = Color(0.15, 0.55, 0.82);
 				preset_base_color = Color(0.03, 0.21, 0.26);

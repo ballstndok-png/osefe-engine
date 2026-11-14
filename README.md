@@ -19,7 +19,7 @@ out-of-the-box visuals.
 - New engine identity: **Osefe Engine** (`version.py`, window titles, file properties)
 - New vector logo, editor icons and Windows `.ico`
 - New boot splash (800×600, gradient "O" mark)
-- New default color preset **"Osefe (Modern)"** (deep dark `#0E0F17` + violet `#7B5BFF`)
+- New default color preset **"Osefe (Modern)"** (deep navy-violet `#0B0C16` + electric violet accent `#8C66FF`, crisper accent borders, richer contrast)
 - Desktop rendering defaults raised one quality step: soft shadow filter
   (Medium) and anisotropic filtering (8×) — mobile overrides untouched
 - **Osefe AI Boost**: stronger out-of-the-box game AI defaults
