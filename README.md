@@ -1,5 +1,7 @@
 # Osefe Engine
 
+**Version 1.0.0** — first stable release of the independent Osefe Engine.
+
 <p align="center">
   <a href="#">
     <img src="editor/icons/osefe_logo.svg" width="400" alt="Osefe Engine">

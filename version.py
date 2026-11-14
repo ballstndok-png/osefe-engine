@@ -1,9 +1,9 @@
 short_name = "osefe"
 name = "Osefe Engine"
-major = 4
-minor = 7
-patch = 2
+major = 1
+minor = 0
+patch = 0
 status = "stable"
 module_config = ""
-website = "https://godotengine.org"
+website = "https://github.com/ballstndok-png/osefe-engine"
 docs = "4.7"
