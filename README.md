@@ -16,6 +16,10 @@ theme ("Osefe (Modern)" — dark violet accents), a redesigned splash screen and
 brand icon set, plus carefully tuned 3D rendering defaults for better
 out-of-the-box visuals.
 
+**Two languages, one engine:** beginner-friendly **GDScript** (the easiest
+scripting language in games) *and* full **C# (.NET 8)** support for developers
+migrating from Unity — same C# code, zero royalties, no engine fees.
+
 ## What's different from upstream
 
 - New engine identity: **Osefe Engine** (`version.py`, window titles, file properties)
