@@ -152,6 +152,7 @@ private:
 	void _project_type_selected();
 	void _starter_confirmation_confirmed();
 	void _starter_confirmation_declined();
+	void _starter_confirmation_custom_action(const String &p_action);
 	void _renderer_selected();
 	void _nonempty_confirmation_ok_pressed();
 

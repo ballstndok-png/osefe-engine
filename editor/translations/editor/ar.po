@@ -16552,3 +16552,11 @@ msgstr "تعذر إنشاء مشهد البداية في مسار المشروع
 msgid "Couldn't create starter script in project path."
 msgstr "تعذر إنشاء سكربت البداية في مسار المشروع."
 
+
+# Osefe: Instant Games confirmation dialog.
+msgid "Don't show again"
+msgstr "لا تظهر مرة أخرى"
+
+msgid "Your project will start with a ready-to-run starter scene (scripts, physics, camera and HUD included). You can delete or modify it anytime.\n\nCreate the starter scene, or make an empty project?"
+msgstr "سيبدأ مشروعك بمشهد لعبة جاهز للتشغيل (سكربتات وفيزياء وكاميرا وواجهة). يمكنك حذفه أو تعديله في أي وقت.\n\nإنشاء مشهد البداية أم مشروع فارغ؟"
+

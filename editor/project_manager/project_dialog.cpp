@@ -490,6 +490,17 @@ void ProjectDialog::_reset_name() {
 	project_name->set_text(TTR("New Game Project"));
 }
 
+void ProjectDialog::_starter_confirmation_custom_action(const String &p_action) {
+	if (p_action == StringName("dont_show_again")) {
+		// Remember the decision so the confirmation is skipped in the future.
+		EditorSettings::get_singleton()->set("project_manager/ask_starter", false);
+		EditorSettings::get_singleton()->save();
+		starter_confirmation->hide();
+		starter_confirmed = true;
+		ok_pressed();
+	}
+}
+
 void ProjectDialog::_starter_confirmation_confirmed() {
 	starter_confirmed = true;
 	ok_pressed();
@@ -614,14 +625,20 @@ void ProjectDialog::ok_pressed() {
 	if (mode == MODE_NEW && !starter_confirmed && !starter_declined &&
 			project_type_button_group.is_valid() && project_type_button_group->get_pressed_button()) {
 		String selected_type = project_type_button_group->get_pressed_button()->get_meta(SNAME("project_type"));
-		if (selected_type != "blank") {
+		bool ask_starter = true;
+		if (EditorSettings::get_singleton()->has_setting("project_manager/ask_starter")) {
+			ask_starter = (bool)EditorSettings::get_singleton()->get_setting("project_manager/ask_starter");
+		}
+		if (selected_type != "blank" && ask_starter) {
 			if (starter_confirmation == nullptr) {
 				starter_confirmation = memnew(ConfirmationDialog);
 				starter_confirmation->set_title(TTRC("Osefe Instant Games"));
 				starter_confirmation->set_ok_button_text(TTRC("Yes, create the starter"));
 				starter_confirmation->set_cancel_button_text(TTRC("No, empty project"));
+				starter_confirmation->add_button(TTRC("Don't show again"), false, "dont_show_again");
 				starter_confirmation->connect("confirmed", callable_mp(this, &ProjectDialog::_starter_confirmation_confirmed));
 				starter_confirmation->connect("canceled", callable_mp(this, &ProjectDialog::_starter_confirmation_declined));
+				starter_confirmation->connect("custom_action", callable_mp(this, &ProjectDialog::_starter_confirmation_custom_action));
 				add_child(starter_confirmation);
 			}
 			starter_confirmation->set_text(

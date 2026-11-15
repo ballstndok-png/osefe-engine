@@ -2131,7 +2131,9 @@ SceneTree::SceneTree() {
 	const bool use_debanding = GLOBAL_GET("rendering/anti_aliasing/quality/use_debanding");
 	root->set_use_debanding(use_debanding);
 
-	const bool use_occlusion_culling = GLOBAL_DEF("rendering/occlusion_culling/use_occlusion_culling", false);
+	// Osefe Performance (Unreal-style defaults): occlusion culling is enabled by
+	// default so complex 3D scenes skip rendering hidden geometry and gain FPS.
+	const bool use_occlusion_culling = GLOBAL_DEF("rendering/occlusion_culling/use_occlusion_culling", true);
 	root->set_use_occlusion_culling(use_occlusion_culling);
 
 	float mesh_lod_threshold = GLOBAL_DEF(PropertyInfo(Variant::FLOAT, "rendering/mesh_lod/lod_change/threshold_pixels", PROPERTY_HINT_RANGE, "0,1024,0.1"), 1.0);
