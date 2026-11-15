@@ -1,0 +1,43 @@
+name: Publish Osefe Engine Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish v1.0.0 Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download editor artifact from build run
+        uses: actions/download-artifact@v4
+        with:
+          name: osefe-editor-windows
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 43703702783
+
+      - name: List downloaded files
+        run: ls -la
+
+      - name: Create GitHub Release and attach engine
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: Osefe Engine V1.0.0 (Windows)
+          body: |
+            First stable release of Osefe Engine — the independent, beginner-friendly game engine.
+
+            Highlights:
+            - ⚡ Instant Games: playable Platformer 2D, Top-Down 2D and FPS 3D templates in one click (optional)
+            - 🧬 Hybrid projects: 3D world + 2D HUD out of the box
+            - 💪 Osefe AI Boost: sharper navigation, smarter agents
+            - 🚀 Unreal-style FPS boosters: occlusion culling + FSR 2.2 upscaling
+            - 🎨 Vivid electric-violet theme, Arabic-friendly, follows system language
+            - 🇵🇸 Free Palestine
+
+            Download `osefe-editor-windows.zip`, extract, run `osefe.exe`.
+            Built on the open-source Godot 4.7.2 core (MIT).
+          files: |
+            osefe-editor-windows/*
