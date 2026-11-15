@@ -128,7 +128,7 @@ void EditorAssetLibraryItem::_asset_clicked() {
 }
 
 void EditorAssetLibraryItem::_author_clicked() {
-	OS::get_singleton()->shell_open("https://github.com/ballstndok-png/osefe-engine" + "/");
+	OS::get_singleton()->shell_open("https://github.com/ballstndok-png/osefe-engine/");
 }
 
 void EditorAssetLibraryItem::_license_clicked() {
