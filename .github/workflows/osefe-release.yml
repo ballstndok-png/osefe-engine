@@ -40,4 +40,4 @@ jobs:
             Download `osefe-editor-windows.zip`, extract, run `osefe.exe`.
             Built on the open-source Godot 4.7.2 core (MIT).
           files: |
-            osefe-editor-windows/*
+            *.exe
