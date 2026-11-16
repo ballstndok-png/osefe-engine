@@ -65,7 +65,7 @@
 #include "editor/themes/editor_scale.h"
 #include "scene/2d/node_2d.h"
 #include "scene/3d/camera_3d.h"
-#include "scene/3d/directional_light_3d.h"
+#include "scene/3d/light_3d.h"
 #include "scene/3d/world_environment.h"
 #include "scene/animation/animation_tree.h"
 #include "scene/audio/audio_stream_player.h"
