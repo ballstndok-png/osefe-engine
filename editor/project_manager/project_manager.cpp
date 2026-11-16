@@ -1767,8 +1767,9 @@ ProjectManager::ProjectManager() {
 		footer_bar->add_child(version_btn);
 
 		// Osefe Engine: stand with Palestine.
-		Label *palestine_label = memnew(Label(U"🇵🇸 Free Palestine"));
-		palestine_label->set_self_modulate(Color(1, 1, 1, 0.6));
+		Label *palestine_label = memnew(Label(U"🇵🇸 Free Palestine — فلسطين حرة"));
+		palestine_label->set_self_modulate(Color(1, 1, 1, 0.85));
+		palestine_label->add_theme_font_size_override("font_size", 14);
 		footer_bar->add_child(palestine_label);
 	}
 

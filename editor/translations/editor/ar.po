@@ -16560,3 +16560,50 @@ msgstr "لا تظهر مرة أخرى"
 msgid "Your project will start with a ready-to-run starter scene (scripts, physics, camera and HUD included). You can delete or modify it anytime.\n\nCreate the starter scene, or make an empty project?"
 msgstr "سيبدأ مشروعك بمشهد لعبة جاهز للتشغيل (سكربتات وفيزياء وكاميرا وواجهة). يمكنك حذفه أو تعديله في أي وقت.\n\nإنشاء مشهد البداية أم مشروع فارغ؟"
 
+msgid "New Scene from Template"
+msgstr "مشهد جديد من قالب"
+
+msgid "Platformer 2D"
+msgstr "منصات ثنائية الأبعاد"
+
+msgid "Top-Down 2D"
+msgstr "من أعلى ثنائية الأبعاد"
+
+msgid "FPS 3D"
+msgstr "تصويب ثلاثي الأبعاد"
+
+msgid "Hybrid Scene (3D + 2D)"
+msgstr "مشهد هجين (ثلاثي + ثنائي الأبعاد)"
+
+msgid "Osefe Hybrid — 3D world + 2D UI"
+msgstr "أوسفة الهجين — عالم ثلاثي الأبعاد + واجهة ثنائية"
+
+msgid "Osefe Power"
+msgstr "أوسفة باور"
+
+msgid "One-click generators — everything is created inside your project."
+msgstr "مولدات بضغطة واحدة — كل شيء يُنشأ داخل مشروعك."
+
+msgid "Generate SFX (WAV)"
+msgstr "توليد مؤثر صوتي (WAV)"
+
+msgid "Generate 2D Level"
+msgstr "توليد مستوى ثنائي الأبعاد"
+
+msgid "Generate Character"
+msgstr "توليد شخصية"
+
+msgid "Turbo ⚡ (Performance Boost)"
+msgstr "تيربو ⚡ (تسريع الأداء)"
+
+msgid "Enables FSR 2 upscaling, occlusion culling and leaner quality settings for this project, then saves them to project.godot."
+msgstr "يفعّل تكبير FSR 2 وحجب الإخفاء وإعدادات جودة أخف لهذا المشروع، ثم يحفظها في project.godot."
+
+msgid "SFX saved to res://osefe_sfx_pickup.wav — drag it into any AudioStreamPlayer!"
+msgstr "حُفظ المؤثر الصوتي في res://osefe_sfx_pickup.wav — اسحبه إلى أي AudioStreamPlayer!"
+
+msgid "Turbo ⚡ applied and saved to project.godot:\n• FSR 2 upscaling at 0.9 scale\n• Occlusion culling ON\n• MSAA off, leaner shadows\n\nYour game should run noticeably faster."
+msgstr "تم تطبيق تيربو ⚡ وحفظه في project.godot:\n• تكبير FSR 2 بمقياس 0.9\n• حجب الإخفاء مُفعّل\n• إيقاف MSAA وظلال أخف\n\nلعبتك ستعمل أسرع بشكل ملحوظ."
+
+msgid "Free Palestine — فلسطين حرة"
+msgstr "Free Palestine — فلسطين حرة"

@@ -144,6 +144,9 @@ public:
 		// Scene menu.
 		SCENE_NEW_SCENE,
 		SCENE_NEW_INHERITED_SCENE,
+		SCENE_TEMPLATE_PLATFORMER,
+		SCENE_TEMPLATE_TOPDOWN,
+		SCENE_TEMPLATE_FPS,
 		SCENE_OPEN_SCENE,
 		SCENE_OPEN_PREV,
 		SCENE_OPEN_RECENT,
@@ -367,6 +370,7 @@ private:
 	Color last_system_accent_color = Color(0, 0, 0, 0);
 
 	PopupMenu *recent_scenes = nullptr;
+	PopupMenu *scene_templates_menu = nullptr;
 	String _recent_scene;
 	List<String> prev_closed_scenes;
 	String defer_load_scene;

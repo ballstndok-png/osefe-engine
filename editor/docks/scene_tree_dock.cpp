@@ -64,15 +64,23 @@
 #include "editor/shader/shader_create_dialog.h"
 #include "editor/themes/editor_scale.h"
 #include "scene/2d/node_2d.h"
+#include "scene/3d/camera_3d.h"
+#include "scene/3d/directional_light_3d.h"
+#include "scene/3d/world_environment.h"
 #include "scene/animation/animation_tree.h"
 #include "scene/audio/audio_stream_player.h"
 #include "scene/gui/box_container.h"
 #include "scene/gui/check_box.h"
+#include "scene/gui/label.h"
 #include "scene/gui/panel_container.h"
+#include "scene/main/canvas_layer.h"
 #include "scene/main/missing_node.h"
 #include "scene/main/scene_tree.h"
 #include "scene/property_utils.h"
+#include "scene/resources/environment.h"
 #include "scene/resources/packed_scene.h"
+#include "scene/resources/3d/sky_material.h"
+#include "scene/resources/sky.h"
 #include "servers/display/display_server.h"
 
 void SceneTreeDock::_nodes_drag_begin() {
@@ -1585,6 +1593,7 @@ void SceneTreeDock::_tool_selected(int p_tool, bool p_confirm_override) {
 		case TOOL_CREATE_2D_SCENE:
 		case TOOL_CREATE_3D_SCENE:
 		case TOOL_CREATE_USER_INTERFACE:
+		case TOOL_CREATE_HYBRID_SCENE:
 		case TOOL_CREATE_FAVORITE: {
 			Node *new_node = nullptr;
 
@@ -1615,6 +1624,59 @@ void SceneTreeDock::_tool_selected(int p_tool, bool p_confirm_override) {
 					case TOOL_CREATE_3D_SCENE:
 						new_node = memnew(Node3D);
 						break;
+					case TOOL_CREATE_HYBRID_SCENE: {
+						// Osefe Hybrid Scene: a full 3D world (camera, light, sky)
+						// with a 2D HUD layer on top, created in one click.
+						Node3D *hybrid_root = memnew(Node3D);
+						hybrid_root->set_name("MainHybrid");
+
+						Camera3D *camera = memnew(Camera3D);
+						camera->set_name("Camera3D");
+						camera->set_position(Vector3(0, 2, 6));
+						camera->set_current(true);
+						hybrid_root->add_child(camera);
+
+						DirectionalLight3D *light = memnew(DirectionalLight3D);
+						light->set_name("DirectionalLight3D");
+						light->set_position(Vector3(0, 10, 0));
+						light->rotate_x(-Math::deg_to_rad(45.0));
+						light->set_param(Light3D::PARAM_ENERGY, 1.2);
+						light->set_shadow(true);
+						hybrid_root->add_child(light);
+
+						WorldEnvironment *world_env = memnew(WorldEnvironment);
+						world_env->set_name("WorldEnvironment");
+						Ref<Environment> env;
+						env.instantiate();
+						Ref<Sky> sky;
+						sky.instantiate();
+						Ref<ProceduralSkyMaterial> sky_mat;
+						sky_mat.instantiate();
+						sky->set_material(sky_mat);
+						env->set_background(Environment::BG_SKY);
+						env->set_sky(sky);
+						world_env->set_environment(env);
+						hybrid_root->add_child(world_env);
+
+						CanvasLayer *hud = memnew(CanvasLayer);
+						hud->set_name("HUD");
+						Label *hud_label = memnew(Label);
+						hud_label->set_name("Title");
+						hud_label->set_position(Point2(24, 24));
+						hud_label->set_text(TTR("Osefe Hybrid — 3D world + 2D UI"));
+						hud_label->add_theme_font_size_override("font_size", 28);
+						hud->add_child(hud_label);
+						hybrid_root->add_child(hud);
+
+						// Set owners so all children are saved with the scene.
+						camera->set_owner(hybrid_root);
+						light->set_owner(hybrid_root);
+						world_env->set_owner(hybrid_root);
+						hud->set_owner(hybrid_root);
+						hud_label->set_owner(hybrid_root);
+
+						new_node = hybrid_root;
+					} break;
 					case TOOL_CREATE_USER_INTERFACE: {
 						Control *node = memnew(Control);
 						// Making the root control full rect by default is more useful for resizable UIs.
@@ -1758,6 +1820,12 @@ void SceneTreeDock::_notification(int p_what) {
 			button_ui->set_text(TTR("User Interface"));
 			button_ui->set_button_icon(get_editor_theme_icon(SNAME("Control")));
 			button_ui->connect(SceneStringName(pressed), callable_mp(this, &SceneTreeDock::_tool_selected).bind(TOOL_CREATE_USER_INTERFACE, false));
+
+			button_hybrid = memnew(Button);
+			beginner_node_shortcuts->add_child(button_hybrid);
+			button_hybrid->set_text(TTR("Hybrid Scene (3D + 2D)"));
+			button_hybrid->set_button_icon(get_editor_theme_icon(SNAME("Node3D")));
+			button_hybrid->connect(SceneStringName(pressed), callable_mp(this, &SceneTreeDock::_tool_selected).bind(TOOL_CREATE_HYBRID_SCENE, false));
 
 			favorite_node_shortcuts = memnew(VBoxContainer);
 			favorite_node_shortcuts->set_auto_translate_mode(AUTO_TRANSLATE_MODE_DISABLED);

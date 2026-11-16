@@ -58,7 +58,7 @@ void EditorAbout::_notification(int p_what) {
 			_about_text_label->set_text(
 					String(U"© 2014-present ") + TTR("Godot Engine contributors") + ".\n" +
 					String(U"© 2007-2014 Juan Linietsky, Ariel Manzur.\n") +
-					String(U"🇵🇸 Free Palestine\n"));
+					String(U"🇵🇸 Free Palestine — فلسطين حرة\n"));
 
 			for (ItemList *il : name_lists) {
 				for (int i = 0; i < il->get_item_count(); i++) {

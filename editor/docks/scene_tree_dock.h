@@ -90,6 +90,7 @@ class SceneTreeDock : public EditorDock {
 		TOOL_CREATE_2D_SCENE,
 		TOOL_CREATE_3D_SCENE,
 		TOOL_CREATE_USER_INTERFACE,
+		TOOL_CREATE_HYBRID_SCENE,
 		TOOL_CREATE_FAVORITE,
 		TOOL_CENTER_PARENT,
 		TOOL_HIDE_FILTERED_OUT_PARENTS,
@@ -125,6 +126,7 @@ class SceneTreeDock : public EditorDock {
 	Button *button_2d = nullptr;
 	Button *button_3d = nullptr;
 	Button *button_ui = nullptr;
+	Button *button_hybrid = nullptr;
 	Button *button_custom = nullptr;
 	Button *button_clipboard = nullptr;
 
