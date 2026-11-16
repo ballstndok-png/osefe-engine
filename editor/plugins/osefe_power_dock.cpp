@@ -16,10 +16,6 @@
 #include "scene/gui/label.h"
 #include "scene/gui/separator.h"
 
-String OsefePowerDockPlugin::get_plugin_name() const {
-	return "Osefe Power";
-}
-
 void OsefePowerDockPlugin::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_READY: {
@@ -125,7 +121,7 @@ void OsefePowerDockPlugin::_generate_sfx() {
 		float t = (float)i / rate;
 		float freq = 440.0f + 460.0f * (t / 0.35f);
 		float env = 1.0f - t / 0.35f;
-		float s = Math::sin(Math_TAU * freq * t) * env * 0.6f;
+		float s = Math::sin(Math::TAU * freq * t) * env * 0.6f;
 		int16_t v = (int16_t)(CLAMP(s, -1.0f, 1.0f) * 32767.0f);
 		data[44 + i * 2] = v & 0xFF;
 		data[44 + i * 2 + 1] = (v >> 8) & 0xFF;
