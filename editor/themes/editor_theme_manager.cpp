@@ -348,11 +348,41 @@ EditorThemeManager::ThemeConfiguration EditorThemeManager::_create_theme_config(
 				preset_base_color = Color(0.9, 0.9, 0.9);
 				preset_contrast = light_contrast;
 				preset_icon_saturation = 1;
+			} else if (config.preset == "Osefe (Emerald)") {
+				preset_accent_color = Color(0.24, 0.86, 0.59); // Fresh emerald green.
+				preset_base_color = Color(0.027, 0.102, 0.086); // Deep teal-navy.
+				preset_contrast = 0.35;
+				preset_draw_extra_borders = true;
+				preset_icon_saturation = 2.0;
+			} else if (config.preset == "Osefe (Light)") {
+				preset_accent_color = Color(0.42, 0.28, 0.92); // Violet accent on a light canvas.
+				preset_base_color = Color(0.949, 0.933, 0.980); // Soft lavender white.
+				preset_contrast = light_contrast;
+				preset_draw_extra_borders = true;
+				preset_icon_saturation = 1.4;
 			} else if (config.preset == "Osefe (Modern)") {
 				preset_accent_color = Color(0.55, 0.40, 1.0); // Electric violet, brighter and more vivid.
 				preset_base_color = Color(0.042, 0.048, 0.086); // Deep navy-violet, richer than flat gray.
 				preset_contrast = 0.35;
 				preset_draw_extra_borders = true; // Crisp accent borders for a sharper, more defined UI.
+				preset_icon_saturation = 2.0;
+			} else if (config.preset == "Osefe (Ocean)") {
+				preset_accent_color = Color(0.24, 0.68, 1.0); // Bright ocean blue.
+				preset_base_color = Color(0.031, 0.067, 0.122); // Deep sea navy.
+				preset_contrast = 0.35;
+				preset_draw_extra_borders = true;
+				preset_icon_saturation = 2.0;
+			} else if (config.preset == "Osefe (Rose)") {
+				preset_accent_color = Color(1.0, 0.36, 0.56); // Vivid rose pink.
+				preset_base_color = Color(0.102, 0.039, 0.071); // Dark wine.
+				preset_contrast = 0.35;
+				preset_draw_extra_borders = true;
+				preset_icon_saturation = 2.0;
+			} else if (config.preset == "Osefe (Sunset)") {
+				preset_accent_color = Color(1.0, 0.54, 0.24); // Warm sunset orange.
+				preset_base_color = Color(0.086, 0.047, 0.055); // Dark plum.
+				preset_contrast = 0.35;
+				preset_draw_extra_borders = true;
 				preset_icon_saturation = 2.0;
 			} else if (config.preset == "Solarized (Dark)") {
 				preset_accent_color = Color(0.15, 0.55, 0.82);

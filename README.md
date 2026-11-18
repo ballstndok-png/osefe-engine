@@ -29,6 +29,7 @@ out-of-the-box visuals.
 - **Hybrid root node** 🆕: the **Create Root Node** dialog in the Scene dock gains a **"Hybrid Scene (3D + 2D)"** button — one click builds a full 3D world (camera, sun with shadows, procedural sky) with a 2D HUD layer on top, in any project
 - **Osefe Power Dock** 🆕⚡: a new editor dock with **one-click generators** — SFX (a ready WAV chiptune), a random 2D platformer level (`.tscn`), and a controllable player character (scene + GDScript) — plus a **Turbo ⚡** button that applies FSR 2 upscaling, occlusion culling and leaner quality settings to the current project in one press
 - **Stronger Palestine support** 🇵🇸: the boot splash carries a small Palestine flag stripe, and the About dialog + Project Manager footer read "Free Palestine — فلسطين حرة"
+- **Six built-in Osefe color themes** 🎨: switch the whole editor look in one click from **Editor Settings → Interface → Theme → Color Preset** or the quick settings dialog — Osefe (Modern) violet, Osefe (Ocean) blue, Osefe (Sunset) orange, Osefe (Emerald) green, Osefe (Rose) pink, and Osefe (Light) for bright rooms. Every theme can also be tuned pixel-by-pixel with the existing **Accent Color** picker
 - **Beginner-friendly defaults**: editor UI follows system language (`auto`), auto-save on focus loss, snappier code completion (0.15s)
 - **Osefe AI Boost**: stronger out-of-the-box game AI defaults
   - 3D navigation mesh precision doubled: default cell size/height `0.125` (was `0.25`) — smoother agent paths that hug walls less
